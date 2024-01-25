@@ -1,4 +1,17 @@
-# cdp-node-env-test-suite-template
+# CDP Node.js Environment Test Suite Template
+
+The template to create a service that runs WDIO tests against an environment.
+
+- [Requirements](#requirements)
+  - [Node.js](#nodejs)
+- [Local](#local)
+  - [Setup](#setup)
+  - [Running local tests](#running-local-tests)
+  - [Debugging local tests](#debugging-local-tests)
+- [Production](#production)
+  - [Debugging tests](#debugging-tests)
+- [Licence](#licence)
+  - [About the licence](#about-the-licence)
 
 ## Requirements
 
@@ -14,7 +27,7 @@ cd cdp-node-env-test-suite-template
 nvm use
 ```
 
-## Local development
+## Local
 
 ### Setup
 
