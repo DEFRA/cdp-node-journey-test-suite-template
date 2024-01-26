@@ -15,7 +15,8 @@ env:
   AWS_ACCOUNT_ID: "094954420758"
 
 jobs:
-  cdp-workflows:
+  build:
+    if: github.run_number != 1
     name: Build, version and publish
     runs-on: ubuntu-latest
     steps:
