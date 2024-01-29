@@ -1,3 +1,5 @@
+const allure = require('allure-commandline')
+
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 
@@ -136,14 +138,22 @@ export const config = {
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
 
-  reporters: ['spec'],
-  //
+  reporters: [
+    'spec',
+    [
+      'allure',
+      {
+        outputDir: 'allure-results'
+      }
+    ]
+  ],
+
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
     timeout: debug ? oneHour : 60000
-  }
+  },
   //
   // =====
   // Hooks
@@ -232,11 +242,25 @@ export const config = {
    * @param {boolean} result.passed    true if test has passed, otherwise false
    * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
    */
-  // afterTest: function (
-  //   test,
-  //   context,
-  //   { error, result, duration, passed, retries }
-  // ) {},
+  afterTest: async function (
+    test,
+    context,
+    { error, result, duration, passed, retries }
+  ) {
+    await browser.takeScreenshot()
+
+    if (passed) {
+      browser.executeScript(
+        'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Assertions passed"}}'
+      )
+    }
+
+    if (error) {
+      browser.executeScript(
+        'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion failed"}}'
+      )
+    }
+  },
 
   /**
    * Hook that gets executed after the suite has ended
@@ -274,7 +298,9 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  // onComplete: function (exitCode, config, capabilities, results) {},
+  onComplete: function (exitCode, config, capabilities, results) {
+    allure(['generate', 'allure-results', '--clean'])
+  }
   /**
    * Gets executed when a refresh happens.
    * @param {string} oldSessionId session ID of the old session
