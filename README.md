@@ -13,20 +13,6 @@ The template to create a service that runs WDIO tests against an environment.
 - [Licence](#licence)
   - [About the licence](#about-the-licence)
 
-## Requirements
-
-### Node.js
-
-Please install [Node.js](http://nodejs.org/) `>= v20` and [npm](https://nodejs.org/) `>= v9`. You will find it
-easier to use the Node Version Manager [nvm](https://github.com/creationix/nvm)
-
-To use the correct version of Node.js for this application, via nvm:
-
-```bash
-cd cdp-node-env-test-suite-template
-nvm use
-```
-
 ## Local
 
 ### Setup
@@ -52,6 +38,13 @@ npm run test:local:debug
 ```
 
 ## Production
+
+### Running the tests
+
+Tests are run from the CDP-Portal under the Test Suites section. Before any changes can be run, a new docker image must be built, this will happen automatically when a pull request is merged into the `main` branch.
+You can check the progress of the build under the actions section of this repository. Builds typically take around 1-2 minutes.
+
+The results of the test run are made available in the portal.
 
 ### Debugging tests
 
