@@ -1,18 +1,17 @@
-FROM node:21-bookworm-slim
+FROM node:21-alpine
 
 ENV TZ="Europe/London"
 
 USER root
- RUN apt update && \
-   apt install -y \
-   curl \
-   unzip \
-   gnupg2 \
-   && apt-get clean
 
-ARG PARENT_VERSION
+RUN apk add --no-cache \
+    openjdk17-jre-headless \
+    curl \
+    aws-cli
+
+WORKDIR /app
 
 COPY . .
 RUN npm install
 
-ENTRYPOINT [ "npm", "test" ]
+ENTRYPOINT [ "npm", "run", "test:publish" ]

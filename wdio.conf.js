@@ -1,5 +1,3 @@
-const allure = require('allure-commandline')
-
 const debug = process.env.DEBUG
 const oneHour = 60 * 60 * 1000
 
@@ -15,7 +13,15 @@ export const config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+  baseUrl: `https://${process.env.BASE_URL}/cdp-node-env-test-suite-template`,
+
+  // If the service you're testing is setup with its own subdomain you can build the baseUrl
+  // up using the Environment name:
+  // baseUrl: `https://service-name.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
+
+  // Connection to remote chromedriver
+  hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
+  port: process.env.CHROMEDRIVER_PORT || 4444,
 
   //
   // ==================
@@ -64,10 +70,7 @@ export const config = {
 
   capabilities: [
     {
-      browserName: 'chrome',
-      hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
-      port: process.env.CHROMEDRIVER_PORT | 4444,
-      'wdio:chromedriverOptions': {}
+      browserName: 'chrome'
     }
   ],
 
@@ -298,9 +301,7 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  onComplete: function (exitCode, config, capabilities, results) {
-    allure(['generate', 'allure-results', '--clean'])
-  }
+  onComplete: function (exitCode, config, capabilities, results) {}
   /**
    * Gets executed when a refresh happens.
    * @param {string} oldSessionId session ID of the old session
