@@ -142,8 +142,17 @@ export const config = {
   // see also: https://webdriver.io/docs/dot-reporter
 
   reporters: [
-    'spec',
     [
+      // Spec reporter provides rolling output to the logger so you can see it in-progress
+      'spec',
+      {
+        addConsoleLogs: true,
+        realtimeReporting: true,
+        color: false
+      }
+    ],
+    [
+      // Allure is used to generate the final HTML report
       'allure',
       {
         outputDir: 'allure-results'
