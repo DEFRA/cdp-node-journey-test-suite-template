@@ -1,6 +1,7 @@
 const allure = require('allure-commandline')
 
 const debug = process.env.DEBUG
+const oneMinute = 60 * 1000
 const oneHour = 60 * 60 * 1000
 
 export const config = {
@@ -304,7 +305,7 @@ export const config = {
     const generation = allure(['generate', 'allure-results', '--clean'])
 
     return new Promise((resolve, reject) => {
-      const generationTimeout = setTimeout(() => reject(reportError), 5000)
+      const generationTimeout = setTimeout(() => reject(reportError), oneMinute)
 
       generation.on('exit', function (exitCode) {
         clearTimeout(generationTimeout)
