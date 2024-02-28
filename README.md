@@ -13,7 +13,7 @@ The template to create a service that runs WDIO tests against an environment.
 - [Licence](#licence)
   - [About the licence](#about-the-licence)
 
-## Local
+## Local Development
 
 ### Setup
 
@@ -46,13 +46,13 @@ You can check the progress of the build under the actions section of this reposi
 
 The results of the test run are made available in the portal.
 
-### Debugging tests
+## Requirements of CDP Environment Tests
 
-To turn debugging on in production
+1. Your service builds as a docker container using the `.github/workflows/publish.yml`
+   The workflow tags the docker images allowing the CDP Portal to identify how the container should be run on the platform.
+   It also ensures its published to the correct docker repository.
 
-```bash
-export DEBUG=true
-```
+2. The Dockerfile's entrypoint script should return exit
 
 ## Licence
 
