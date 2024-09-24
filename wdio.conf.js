@@ -23,7 +23,7 @@ export const config = {
   specs: ['./test/specs/**/*.js'],
   // Tests to exclude
   exclude: [],
-  maxInstances: debug ? 1 : 3,
+  maxInstances: 1,
 
   // Presently calls outside of the cdp environment will be dropped.
   // In chrome this can result in pages never finishing loading and the test step timing out.
