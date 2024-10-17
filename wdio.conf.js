@@ -25,14 +25,15 @@ export const config = {
   exclude: [],
   maxInstances: 1,
 
-  // Presently calls outside of the cdp environment will be dropped.
-  // In chrome this can result in pages never finishing loading and the test step timing out.
-  // Going forward we will be making the outbound proxy available to test suite, but until that happens
-  // the work-around here is to add the external host names to the --host-resolver-rule below.
-  // This causes the calls to fail instantly rather than timeout.
   capabilities: [
     {
       browserName: 'chrome',
+      // Outbound calls must go via the proxy
+      proxy: {
+        proxyType: 'manual',
+        httpProxy: 'localhost:3128',
+        sslProxy: 'localhost:3128'
+      },
       'goog:chromeOptions': {
         args: [
           '--no-sandbox',
@@ -46,8 +47,7 @@ export const config = {
           '--dns-prefetch-disable',
           '--disable-background-networking',
           '--disable-remote-fonts',
-          '--ignore-certificate-errors',
-          '--host-resolver-rules=MAP www.googletagmanager.com 127.0.0.1' // Add other hosts you want to block here
+          '--ignore-certificate-errors'
         ]
       }
     }
