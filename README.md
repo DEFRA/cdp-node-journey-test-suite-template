@@ -52,7 +52,9 @@ The results of the test run are made available in the portal.
    The workflow tags the docker images allowing the CDP Portal to identify how the container should be run on the platform.
    It also ensures its published to the correct docker repository.
 
-2. The Dockerfile's entrypoint script should return exit
+2. The Dockerfile's entrypoint script should return exit code of 0 if the test suite passes or 1/>0 if it fails
+
+3. Test reports should be published to S3 using the script in `./bin/publish-tests.sh`
 
 ## Licence
 
