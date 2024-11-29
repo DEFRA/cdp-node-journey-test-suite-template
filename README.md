@@ -2,9 +2,9 @@
 
 The template to create a service that runs WDIO tests against an environment.
 
-- [Requirements](#requirements)
-  - [Node.js](#nodejs)
 - [Local](#local)
+  - [Requirements](#requirements)
+    - [Node.js](#nodejs)
   - [Setup](#setup)
   - [Running local tests](#running-local-tests)
   - [Debugging local tests](#debugging-local-tests)
@@ -14,6 +14,19 @@ The template to create a service that runs WDIO tests against an environment.
   - [About the licence](#about-the-licence)
 
 ## Local Development
+
+### Requirements
+
+#### Node.js
+
+Please install [Node.js](http://nodejs.org/) `>= v20` and [npm](https://nodejs.org/) `>= v9`. You will find it
+easier to use the Node Version Manager [nvm](https://github.com/creationix/nvm)
+
+To use the correct version of Node.js for this application, via nvm:
+
+```bash
+nvm use
+```
 
 ### Setup
 
@@ -56,16 +69,6 @@ The results of the test run are made available in the portal.
 
 3. Test reports should be published to S3 using the script in `./bin/publish-tests.sh`
 
-## Licence
-
-THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
-
-<http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3>
-
-The following attribution statement MUST be cited in your products and applications when using this information.
-
-> Contains public sector information licensed under the Open Government licence v3
-
 ## Running on GitHub
 
 Alternatively you can run the test suite as a GitHub workflow.
@@ -82,6 +85,16 @@ Steps:
 By default, the provided workflow will run when triggered manually from GitHub or when triggered by another workflow.
 
 If you want to use the repository exclusively for running docker composed based test suites consider displaying the publish.yml workflow.
+
+## Licence
+
+THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
+
+<http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3>
+
+The following attribution statement MUST be cited in your products and applications when using this information.
+
+> Contains public sector information licensed under the Open Government licence v3
 
 ### About the licence
 
