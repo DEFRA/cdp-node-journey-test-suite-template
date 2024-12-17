@@ -41,7 +41,8 @@ export const config = {
           '--dns-prefetch-disable',
           '--disable-background-networking',
           '--disable-remote-fonts',
-          '--ignore-certificate-errors'
+          '--ignore-certificate-errors',
+          '--disable-dev-shm-usage'
         ]
       }
     }
