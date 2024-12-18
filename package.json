@@ -1,6 +1,7 @@
 {
   "name": "cdp-node-env-test-suite-template",
   "version": "0.1.0",
+  "type": "module",
   "description": "",
   "engines": {
     "node": ">=20.11.1"
