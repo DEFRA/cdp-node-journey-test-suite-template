@@ -1,5 +1,6 @@
-const debug = process.env.DEBUG
-const oneHour = 60 * 60 * 1000
+import allure from 'allure-commandline'
+
+const oneMinute = 60 * 1000
 
 export const config = {
   //
@@ -48,9 +49,9 @@ export const config = {
     }
   ],
 
-  execArgv: debug ? ['--inspect'] : [],
+  execArgv: ['--loader', 'esm-module-alias/loader'],
 
-  logLevel: debug ? 'debug' : 'info',
+  logLevel: 'info',
 
   // Number of failures before the test suite bails.
   bail: 0,
@@ -84,7 +85,7 @@ export const config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
-    timeout: debug ? oneHour : 60000
+    timeout: oneMinute
   },
   //
   // =====
@@ -179,7 +180,9 @@ export const config = {
     context,
     { error, result, duration, passed, retries }
   ) {
-    await browser.takeScreenshot()
+    if (error) {
+      await browser.takeScreenshot()
+    }
   },
 
   /**
@@ -218,7 +221,29 @@ export const config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  onComplete: function (exitCode, config, capabilities, results) {}
+  onComplete: function (exitCode, config, capabilities, results) {
+    if (results?.failed && results.failed > 0) {
+      const reportError = new Error('Could not generate Allure report')
+      const generation = allure(['generate', 'allure-results', '--clean'])
+
+      return new Promise((resolve, reject) => {
+        const generationTimeout = setTimeout(
+          () => reject(reportError),
+          oneMinute
+        )
+
+        generation.on('exit', function (exitCode) {
+          clearTimeout(generationTimeout)
+
+          if (exitCode !== 0) {
+            return reject(reportError)
+          }
+
+          resolve()
+        })
+      })
+    }
+  }
   /**
    * Gets executed when a refresh happens.
    * @param {string} oldSessionId session ID of the old session
