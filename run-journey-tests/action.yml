@@ -14,6 +14,10 @@ runs:
     - uses: actions/checkout@v4
       with:
         repository: DEFRA/cdp-node-journey-test-suite-template
+
+    - name: Docker Login
+      uses: DEFRA/cdp-build-action/docker-login@main
+
     - uses: actions/setup-node@v4
       with:
         node-version: 20
