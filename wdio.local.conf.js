@@ -4,12 +4,6 @@ const debug = process.env.DEBUG
 const oneMinute = 60 * 1000
 const oneHour = 60 * 60 * 1000
 
-const execArgv = ['--loader', 'esm-module-alias/loader']
-
-if (debug) {
-  execArgv.push('--inspect')
-}
-
 export const config = {
   //
   // ====================
@@ -78,8 +72,6 @@ export const config = {
           }
         }
       ],
-
-  execArgv,
 
   //
   // ===================
@@ -255,17 +247,9 @@ export const config = {
    * Function to be executed after a test (in Mocha/Jasmine only)
    * @param {object}  test             test object
    * @param {object}  context          scope object the test was executed with
-   * @param {Error}   result.error     error object in case the test fails, otherwise `undefined`
-   * @param {*}       result.result    return object of test function
-   * @param {number}  result.duration  duration of test
-   * @param {boolean} result.passed    true if test has passed, otherwise false
-   * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
+   * @param error
    */
-  afterTest: async function (
-    test,
-    context,
-    { error, result, duration, passed, retries }
-  ) {
+  afterTest: async function (test, context, { error }) {
     await browser.takeScreenshot()
 
     if (error) {
@@ -306,12 +290,12 @@ export const config = {
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
    * thrown in the onComplete hook will result in the test run failing.
-   * @param {object} exitCode 0 - success, 1 - fail
-   * @param {object} config wdio configuration object
-   * @param {Array.<Object>} capabilities list of capabilities details
-   * @param {<Object>} results object containing test results
+   * @param {object} _exitCode 0 - success, 1 - fail
+   * @param {object} _config wdio configuration object
+   * @param {Array.<Object>} _capabilities list of capabilities details
+   * @param {<Object>} _results object containing test results
    */
-  onComplete: function (exitCode, config, capabilities, results) {
+  onComplete: function (_exitCode, _config, _capabilities, _results) {
     const reportError = new Error('Could not generate Allure report')
     const generation = allure(['generate', 'allure-results', '--clean'])
 

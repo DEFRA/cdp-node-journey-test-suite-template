@@ -1,19 +1,9 @@
 import fs from 'node:fs'
-import { ProxyAgent, setGlobalDispatcher } from 'undici'
-import { bootstrap } from 'global-agent'
 
 /**
- * Enable webdriver.io to use the outbound proxy.
+ * Proxy enabled using NODE_USE_ENV_PROXY=1
  * This is required for the test suite to be able to talk to BrowserStack.
  */
-if (process.env.HTTP_PROXY) {
-  const dispatcher = new ProxyAgent({
-    uri: process.env.HTTP_PROXY
-  })
-  setGlobalDispatcher(dispatcher)
-  bootstrap()
-  global.GLOBAL_AGENT.HTTP_PROXY = process.env.HTTP_PROXY
-}
 
 const oneMinute = 60 * 1000
 
@@ -81,8 +71,6 @@ export const config = {
     ]
   ],
 
-  execArgv: ['--loader', 'esm-module-alias/loader'],
-
   logLevel: 'info',
 
   // Number of failures before the test suite bails.
@@ -121,11 +109,7 @@ export const config = {
   },
 
   // Hooks
-  afterTest: async function (
-    test,
-    context,
-    { error, result, duration, passed, retries }
-  ) {
+  afterTest: async function (test, context, { error }) {
     if (error) {
       await browser.takeScreenshot()
     }
